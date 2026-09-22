@@ -46,4 +46,4 @@ def apply_combined_mult(
 ) -> tuple:
     """Apply symbol multipliers and then global multiplier"""
     win, sym_mult = apply_added_symbol_mult(board, win_amount, positions, multiplier_key)
-    return (win * global_multiplier  , sym_mult * global_multiplier)
+    return (round(win * global_multiplier, 2), sym_mult * global_multiplier)
