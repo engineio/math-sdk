@@ -205,7 +205,7 @@ Example:
 
 # Bet Modes / Cost Multipliers
 
-Games may have multiple bet modes defined in the game configuration. Refer to the [Math SDK Documentation](https://carrot-engineering.github.io/math-sdk/math_docs/gamestate_section/configuration_section/betmode_overview/).
+Games may have multiple bet modes defined in the game configuration. Refer to the [Math SDK Documentation](https://engineio.github.io/math-sdk/math_docs/gamestate_section/configuration_section/betmode_overview/).
 
 When making a play request:
 
