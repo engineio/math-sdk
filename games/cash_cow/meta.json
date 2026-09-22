@@ -1,0 +1,21 @@
+{
+    "name": "Cash Cow",
+    "identifier": "cash_cow",
+    "version": "1.0.0",
+    "assets": [],
+    "entry": "run.py",
+    "layout": {
+        "reels": 5,
+        "rows": 5,
+        "paylines": 15
+    },
+    "max_win_multiplier": 12500,
+    "bonus_features": [
+        "Golden Cow Hunt"
+    ],
+    "languages": [
+        "en",
+        "pt"
+    ],
+    "rgs_compatible": true
+}
