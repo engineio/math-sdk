@@ -113,7 +113,7 @@ In the terminal you should seethe game RTP printed out as each thread finishes
 ```shell
 Thread 0 finished with 1.632 RTP. [baseGame: 0.043, freeGame: 1.588]
 ```
-Flor the `bonus` mode, this is telling us that thread 0/10 finished with a total RTP of 163.2%, with 4.3% coming from the basegame (wins on the reveal of Scatter symbols), and 158.8% RTP coming from freegame wins. This is higher than our expected 97%, though we are forcing significantly more max-win simulations than will naturally be awarded, so this is okay. The optimization algorithm will adjust these weights to balance the game properly.
+For the `bonus` mode, this is telling us that thread 0/10 finished with a total RTP of 163.2%, with 4.3% coming from the basegame (wins on the reveal of Scatter symbols), and 158.8% RTP coming from freegame wins. This is higher than our expected 97%, though we are forcing significantly more max-win simulations than will naturally be awarded, so this is okay. The optimization algorithm will adjust these weights to balance the game properly.
 
 
 By setting `run_analysis: True` we are indicating that we would like to generate a PAR sheet, summarizing key game statistics and hit-rates. This program will use the `library/lookup_tables/lookUpTableSegmented_<mode>.csv` file to determine which game-types contributed to the final round wins, in conjunction with the pay-table and `library/forces/force_record_<mode>.json` files to generate frequency and average-win statistics for specific events or win combinations.
