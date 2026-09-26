@@ -1,0 +1,81 @@
+{
+  "gameId": "0_0_sanguo_wuxing",
+  "mathVersion": "m2b.0.0",
+  "simulationCount": 100000,
+  "metrics": {
+    "baseGameRtp": 0.6768219999999999,
+    "hitRate": 0.34007,
+    "averageWinPerHit": 1.990243185226571,
+    "standardDeviation": 10.53188114157751,
+    "maximumObservedWinX": 1974.0,
+    "dualWildCandidateCount": 476,
+    "dualWildCandidateRate": 0.00476,
+    "dualWildCandidateOdds": 210.08403361344537
+  },
+  "rtpComponents": {
+    "earth": 0.006946000000000002,
+    "fire": 0.0039640000000000005,
+    "mega": 0.02987600000000003,
+    "metal": 0.002376,
+    "natural": 0.47125600000002205,
+    "rescue": 0.02428600000000001,
+    "return": 0.025399999999999954,
+    "roundMultiplier": 0.10174200000000008,
+    "water": 5e-05,
+    "wood": 0.010926000000000003
+  },
+  "executedFeatureCountDistribution": {
+    "0": 99021,
+    "1": 803,
+    "2": 134,
+    "3": 34,
+    "5": 8
+  },
+  "chargeDistribution": {
+    "0": 65993,
+    "1": 28262,
+    "2": 4766,
+    "3": 803,
+    "4": 134,
+    "5": 34,
+    "6": 6,
+    "7": 2
+  },
+  "eventCounts": {
+    "megaSymbolsDetected": 2915,
+    "rescueApplied": 3015,
+    "returnSymbolMarked": 26953,
+    "returnWildsApplied": 2471,
+    "featureQueued": 1213,
+    "featureApplied": 1229,
+    "roundMultiplierApplied": 176,
+    "dualWildTriggerCandidate": 476
+  },
+  "reel": {
+    "profile": "m2b_feature_adjusted",
+    "seed": 906502183,
+    "reelLength": 719,
+    "w2ActiveReels": 4,
+    "baseCountsPerReel": {
+      "H1": 20,
+      "H2": 28,
+      "H3": 36,
+      "H4": 45,
+      "H5": 53,
+      "L1": 76,
+      "L2": 91,
+      "L3": 106,
+      "L4": 120,
+      "L5": 142,
+      "W1": 1,
+      "W2": 1
+    },
+    "inactiveW2Replacement": "H1",
+    "sha256": "ec90278c94ac76366bbe7000986cba3b1a36aaf238d54589de5128dbcba3426c"
+  },
+  "verification": {
+    "payout_hash": "4d892ade7000f1c395b1aece3a43eade",
+    "file_hash": "6c62014a55e14e98bf81ec43dc443455535a106bdef7d108944cf0150e9da74a",
+    "num_entries": 100000
+  }
+}

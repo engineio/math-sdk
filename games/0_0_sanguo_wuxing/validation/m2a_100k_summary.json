@@ -1,0 +1,28 @@
+{
+  "gameId": "0_0_sanguo_wuxing",
+  "mathVersion": "m2a.0.0",
+  "sdkCommit": "600a37657c75d67c0412bf3952a01d7e7ee99987",
+  "simulationCount": 100000,
+  "reelProfile": "m2a_flattened",
+  "reelExponent": 0.9,
+  "reelSeed": 906502183,
+  "reelLength": 719,
+  "reelSha256": "e0b86d0082b7fcc59aeab49ac96873f917568003529750f49cf26694862f41d2",
+  "metrics": {
+    "naturalRtp": 0.483824,
+    "hitRate": 0.33161,
+    "averageWinPerHit": 1.459015108108923,
+    "standardDeviation": 1.0115559979674877,
+    "maximumObservedWinX": 20.0,
+    "dualWildCandidateCount": 410,
+    "dualWildCandidateRate": 0.0041,
+    "dualWildCandidateOdds": 243.90243902439025
+  },
+  "verification": {
+    "entries": 100000,
+    "payoutHash": "24032a23db53ed91a973bf52a0bb5b57",
+    "fileSha256": "847085260462f95fb678043a8625419022681f7867b9891c6c072c45c537b7d8",
+    "rgsFormatChecksPassed": true
+  },
+  "status": "M2a natural reel baseline locked; not a complete 96% game"
+}

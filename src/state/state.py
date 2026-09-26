@@ -1,7 +1,9 @@
 from copy import copy, deepcopy
 from abc import ABC, abstractmethod
 from warnings import warn
+import json
 import random
+import zstandard as zstd
 
 # from src.config.config import BetMode
 from src.wins.win_manager import WinManager
@@ -258,14 +260,73 @@ class GeneralGameState(ABC):
         self.win_manager = WinManager(self.config.basegame_type, self.config.freegame_type, mode_max_win)
         self.library = {}
         self.recorded_events = {}
+        # 每个 bet mode 必须拥有独立的 payout sidecar；否则连续生成多个模式时，
+        # 后一个模式会错误包含前一模式的 payout hash 和条目数。
+        self._payout_ints = []
         self.betmode = betmode
         self.num_sims = num_sims
-        for sim in range(
-            thread_index * num_sims + (total_threads * num_sims) * repeat_count,
-            (thread_index + 1) * num_sims + (total_threads * num_sims) * repeat_count,
-        ):
-            self.criteria = sim_to_criteria[sim]
-            self.run_spin(sim, simulation_seeds[sim])
+        stream_books = bool(getattr(self.config, "stream_books", False))
+        temp_book_name = self.output_files.get_temp_multi_thread_name(
+            betmode, thread_index, repeat_count, (compress) * True + (not compress) * False
+        )
+        if stream_books:
+            if not compress or write_event_list:
+                raise ValueError(
+                    "stream_books 仅支持压缩 JSONL 且 write_event_list=False"
+                )
+            book_handle = open(temp_book_name, "wb")
+            book_writer = zstd.ZstdCompressor().stream_writer(
+                book_handle,
+                closefd=False,
+            )
+            lookup_handle = open(
+                self.output_files.get_temp_lookup_name(
+                    betmode, thread_index, repeat_count
+                ),
+                "w",
+                encoding="UTF-8",
+            )
+            segmented_handle = open(
+                self.output_files.get_temp_segmented_name(
+                    betmode, thread_index, repeat_count
+                ),
+                "w",
+                encoding="UTF-8",
+            )
+            sidecar_handle = open(
+                temp_book_name.rsplit(".", 2)[0] + ".payouts",
+                "w",
+                encoding="UTF-8",
+            )
+
+        try:
+            for sim in range(
+                thread_index * num_sims + (total_threads * num_sims) * repeat_count,
+                (thread_index + 1) * num_sims + (total_threads * num_sims) * repeat_count,
+            ):
+                self.criteria = sim_to_criteria[sim]
+                self.run_spin(sim, simulation_seeds[sim])
+                if stream_books:
+                    book = self.library.pop(sim + 1)
+                    payout = book["payoutMultiplier"]
+                    book_writer.write(
+                        (json.dumps(book) + "\n").encode("UTF-8")
+                    )
+                    lookup_handle.write(f"{book['id']},1,{payout}\n")
+                    segmented_handle.write(
+                        f"{book['id']},{book['criteria']},"
+                        f"{round(book['baseGameWins'], 2)},"
+                        f"{round(book['freeGameWins'], 2)}\n"
+                    )
+                    sidecar_handle.write(f"{payout}\n")
+                    self._payout_ints.clear()
+        finally:
+            if stream_books:
+                book_writer.close()
+                book_handle.close()
+                lookup_handle.close()
+                segmented_handle.close()
+                sidecar_handle.close()
         mode_cost = self.get_current_betmode().get_cost()
 
         print(
@@ -277,13 +338,12 @@ class GeneralGameState(ABC):
             flush=True,
         )
 
-        temp_book_name = self.output_files.get_temp_multi_thread_name(
-            betmode, thread_index, repeat_count, (compress) * True + (not compress) * False
-        )
-        write_json(self, temp_book_name, payout_ints=self._payout_ints)
+        if not stream_books:
+            write_json(self, temp_book_name, payout_ints=self._payout_ints)
         print_recorded_wins(self, self.output_files.get_temp_force_name(betmode, thread_index, repeat_count))
-        make_lookup_tables(self, self.output_files.get_temp_lookup_name(betmode, thread_index, repeat_count))
-        make_lookup_pay_split(self, self.output_files.get_temp_segmented_name(betmode, thread_index, repeat_count))
+        if not stream_books:
+            make_lookup_tables(self, self.output_files.get_temp_lookup_name(betmode, thread_index, repeat_count))
+            make_lookup_pay_split(self, self.output_files.get_temp_segmented_name(betmode, thread_index, repeat_count))
 
         if write_event_list:
             write_library_events(self, list(self.library.values()), betmode)

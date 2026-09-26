@@ -1,0 +1,193 @@
+{
+  "gameId": "0_0_sanguo_wuxing",
+  "mathVersion": "m2c.0.0",
+  "label": "m2c_calibration_fr0_7p8_frb0_8p2",
+  "reels": {
+    "BR0": {
+      "profile": "m2b_feature_adjusted",
+      "seed": 906502183,
+      "reelLength": 719,
+      "w2ActiveReels": 4,
+      "baseCountsPerReel": {
+        "H1": 20,
+        "H2": 28,
+        "H3": 36,
+        "H4": 45,
+        "H5": 53,
+        "L1": 76,
+        "L2": 91,
+        "L3": 106,
+        "L4": 120,
+        "L5": 142,
+        "W1": 1,
+        "W2": 1
+      },
+      "inactiveW2Replacement": "H1",
+      "sha256": "ec90278c94ac76366bbe7000986cba3b1a36aaf238d54589de5128dbcba3426c"
+    },
+    "FR0": {
+      "profile": "m2c_natural_freegame",
+      "seed": 906764326,
+      "reelLength": 7190,
+      "countsPerReel": {
+        "H1": 200,
+        "H2": 280,
+        "H3": 360,
+        "H4": 450,
+        "H5": 530,
+        "L1": 760,
+        "L2": 910,
+        "L3": 1060,
+        "L4": 1200,
+        "L5": 1362,
+        "W1": 0,
+        "W2": 78
+      },
+      "sha256": "90e62d0a2ac423a3aa1c77fb533348339fc80adc5b88400ab5644b65d34b51c5"
+    },
+    "FRB0": {
+      "profile": "m2c_bonus_buy_100x",
+      "seed": 56672512,
+      "reelLength": 7190,
+      "countsPerReel": {
+        "H1": 200,
+        "H2": 280,
+        "H3": 360,
+        "H4": 450,
+        "H5": 530,
+        "L1": 760,
+        "L2": 910,
+        "L3": 1060,
+        "L4": 1200,
+        "L5": 1358,
+        "W1": 0,
+        "W2": 82
+      },
+      "sha256": "d89de83c3d22a15a816f9b3ad4e678ee2b608e351ee602f9e8bdbba8b8c556f5"
+    }
+  },
+  "modes": {
+    "base": {
+      "simulationCount": 100000,
+      "costX": 1.0,
+      "rtp": 0.9072939999999999,
+      "rtp95ConfidenceInterval": [
+        0.737285806449456,
+        1.077302193550544
+      ],
+      "baseGameRtp": 0.6768220000000338,
+      "freeGameRtp": 0.23047199999999982,
+      "hitRate": 0.34194,
+      "averageRawPayoutX": 0.9072939999999999,
+      "standardDeviationRawX": 27.429240434207507,
+      "maximumObservedRawX": 4619.6,
+      "wincapCount": 0,
+      "freegameTriggerCount": 476,
+      "freegameTriggerRate": 0.00476,
+      "averageSpinsAwarded": 5.815126050420168,
+      "averageCollectedW2": 3.422268907563025,
+      "finalLevelDistribution": {
+        "1": 401,
+        "2": 53,
+        "3": 14,
+        "4": 5,
+        "5": 3
+      },
+      "spinsAwardedDistribution": {
+        "5": 401,
+        "9": 53,
+        "12": 14,
+        "14": 5,
+        "16": 3
+      },
+      "rtpComponents": {
+        "earth": 0.006946000000000002,
+        "fire": 0.0039640000000000005,
+        "freeNatural": 0.13447200000000006,
+        "mega": 0.02987600000000003,
+        "metal": 0.002376,
+        "natural": 0.47125600000002205,
+        "rescue": 0.02428600000000001,
+        "return": 0.025399999999999954,
+        "roundMultiplier": 0.10174200000000008,
+        "soulMultiplier": 0.096,
+        "water": 5e-05,
+        "wood": 0.010926000000000003
+      },
+      "eventCounts": {
+        "dualWildTriggerCandidate": 476,
+        "soulFreeSpinTrigger": 476,
+        "destinyWildCollected": 1273,
+        "soulLevelUp": 108,
+        "soulWildPlaced": 2781,
+        "soulWildConsumed": 1089,
+        "soulFreeSpinSummary": 476,
+        "freeSpinEnd": 476,
+        "wincap": 0
+      },
+      "verification": {
+        "payout_hash": "e89a7d830d6144f3cdaae2623f6e2a4a",
+        "file_hash": "2b7de181dc667c68b5a6363e8dd2694e0a35c2753b3be9a39a8f77c0d4dc832c",
+        "num_entries": 100000
+      }
+    },
+    "bonus": {
+      "simulationCount": 100000,
+      "costX": 100.0,
+      "rtp": 0.9036844399999999,
+      "rtp95ConfidenceInterval": [
+        0.8473912765210317,
+        0.9599776034789681
+      ],
+      "baseGameRtp": 0.0,
+      "freeGameRtp": 0.9036844399999936,
+      "hitRate": 0.94543,
+      "averageRawPayoutX": 90.368444,
+      "standardDeviationRawX": 908.2378229068744,
+      "maximumObservedRawX": 26120.6,
+      "wincapCount": 0,
+      "freegameTriggerCount": 100000,
+      "freegameTriggerRate": 1.0,
+      "averageSpinsAwarded": 5.9514,
+      "averageCollectedW2": 3.66851,
+      "finalLevelDistribution": {
+        "1": 81661,
+        "2": 13142,
+        "3": 3112,
+        "4": 1380,
+        "5": 292,
+        "6": 213,
+        "7": 200
+      },
+      "spinsAwardedDistribution": {
+        "5": 81661,
+        "9": 13142,
+        "12": 3112,
+        "14": 1380,
+        "16": 292,
+        "17": 213,
+        "18": 200
+      },
+      "rtpComponents": {
+        "freeNatural": 0.36395943999999175,
+        "soulMultiplier": 0.539725
+      },
+      "eventCounts": {
+        "dualWildTriggerCandidate": 0,
+        "soulFreeSpinTrigger": 100000,
+        "destinyWildCollected": 288466,
+        "soulLevelUp": 26939,
+        "soulWildPlaced": 598918,
+        "soulWildConsumed": 247561,
+        "soulFreeSpinSummary": 100000,
+        "freeSpinEnd": 100000,
+        "wincap": 0
+      },
+      "verification": {
+        "payout_hash": "7ab6ef19f95f096f23a45d513463c114",
+        "file_hash": "b8f3ee5e64ce1a4251c5b1c4fa8bb21679aa851c587335b29d6d3341ced9b116",
+        "num_entries": 100000
+      }
+    }
+  }
+}

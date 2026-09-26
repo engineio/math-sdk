@@ -1,0 +1,22 @@
+{
+  "profile": "m2b_feature_adjusted",
+  "seed": 906502183,
+  "reelLength": 719,
+  "w2ActiveReels": 4,
+  "baseCountsPerReel": {
+    "H1": 20,
+    "H2": 28,
+    "H3": 36,
+    "H4": 45,
+    "H5": 53,
+    "L1": 76,
+    "L2": 91,
+    "L3": 106,
+    "L4": 120,
+    "L5": 142,
+    "W1": 1,
+    "W2": 1
+  },
+  "inactiveW2Replacement": "H1",
+  "sha256": "ec90278c94ac76366bbe7000986cba3b1a36aaf238d54589de5128dbcba3426c"
+}

@@ -1,0 +1,33 @@
+{
+  "mode": "base",
+  "bookCount": 10000,
+  "firstBookId": 0,
+  "lastBookId": 9999,
+  "eventCounts": {
+    "destinyWildCollected": 101,
+    "dualWildTriggerCandidate": 36,
+    "featureApplied": 140,
+    "featureQueued": 138,
+    "finalWin": 10000,
+    "freeSpinEnd": 36,
+    "megaSymbolsDetected": 299,
+    "rescueApplied": 312,
+    "returnSymbolMarked": 2669,
+    "returnWildsApplied": 253,
+    "reveal": 10209,
+    "roundMultiplierApplied": 16,
+    "rtpComponentSummary": 10000,
+    "setTotalWin": 10209,
+    "setWin": 3471,
+    "soulFreeSpinSummary": 36,
+    "soulFreeSpinTrigger": 36,
+    "soulLevelUp": 8,
+    "soulWildConsumed": 96,
+    "soulWildPlaced": 212,
+    "tumbleBoard": 4302,
+    "updateFreeSpin": 209,
+    "updateTumbleWin": 4302,
+    "winInfo": 4302
+  },
+  "status": "passed"
+}

@@ -1,0 +1,101 @@
+{
+  "gameId": "0_0_sanguo_wuxing",
+  "mathVersion": "m2d.0.0-candidate",
+  "sdkCommit": "600a376",
+  "targetRtp": 0.96,
+  "maxWin": 50000,
+  "board": {
+    "columns": 7,
+    "rows": 7
+  },
+  "clusterTiers": [
+    [5, 5],
+    [6, 8],
+    [9, 12],
+    [13, 24],
+    [25, 49]
+  ],
+  "wilds": ["W1", "W2"],
+  "wildOwnership": "max-total-pay-v1",
+  "lockedReelProfile": {
+    "name": "m2b_feature_adjusted",
+    "seed": 906502183,
+    "length": 719,
+    "w2ActiveReels": 4,
+    "sha256": "ec90278c94ac76366bbe7000986cba3b1a36aaf238d54589de5128dbcba3426c",
+    "validatedBaseGameRtp": 0.676822,
+    "validatedHitRate": 0.34007,
+    "validatedDualWildRate": 0.00476,
+    "validationSpins": 100000
+  },
+  "m2bParameters": {
+    "featureChargeThresholds": {
+      "3": "wood",
+      "4": "fire",
+      "5": "metal",
+      "6": "water+earth"
+    },
+    "featureCascadesChargeMeter": false,
+    "megaMergeProbability": 0.2,
+    "rescueTriggerProbabilityOnInitialNoWin": 0.044,
+    "returnMarkProbability": 0.27,
+    "featureRoundMultipliers": {
+      "0-1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 5,
+      "5": 10
+    }
+  },
+  "m2cParameters": {
+    "initialFreeSpins": 5,
+    "levelThresholds": [5, 5, 4, 4, 3, 3],
+    "levelAddedSpins": [4, 3, 2, 2, 1, 1],
+    "levelMultipliers": [1, 1, 1, 1, 5, 7, 10],
+    "naturalFreeReel": {
+      "name": "FR0",
+      "length": 7190,
+      "w2CountsPerReel": [82, 82, 81, 81, 81, 81, 81],
+      "sha256": "3aaa1c605b6adf6a5669f9da67b4671a88a14e5deac99eea79e4fb5f4351a42b"
+    },
+    "bonusBuy": {
+      "cost": 100,
+      "reel": "FRB0",
+      "length": 7190,
+      "w2CountsPerReel": [83, 83, 83, 82, 82, 82, 82],
+      "sha256": "3ea096f144d221daa1dde3da76ab45a47401ae6e1346a3e1d7c028d2e08a4e56"
+    }
+  },
+  "implemented": [
+    "natural clusters",
+    "dual wild substitution",
+    "single-owner wild resolution",
+    "synchronous tumble",
+    "50000x win cap",
+    "formal dual-wild free-spin trigger",
+    "M2a reel-strip optimization",
+    "2x2 mega-symbol payout overlay",
+    "wild rescue",
+    "returning soul wilds",
+    "five-element feature queue",
+    "feature-count round multipliers",
+    "M2b component analytics",
+    "1x1-to-7x7 soul overlay",
+    "new-W2 collection and level awards",
+    "soul multipliers",
+    "natural freegame reel",
+    "100x bonus buy reel",
+    "M2c event contract and analytics"
+  ],
+  "m2dValidation": {
+    "method": "eventless-exact-state-machine-v1",
+    "simulationCountPerMode": 1000000,
+    "baseRtp": 0.9471212,
+    "bonusRtp": 0.954634286,
+    "streamBooks": true
+  },
+  "deferredToM2e": [
+    "ten-million-spin candidate regression",
+    "frontend event player and RGS sandbox integration"
+  ]
+}
