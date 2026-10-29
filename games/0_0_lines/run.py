@@ -17,16 +17,20 @@ if __name__ == "__main__":
     compression = True
     profiling = False
 
+    # Ante-only run: base and bonus are already published (their books/LUTs must stay unchanged),
+    # so only "ante" is simulated and optimised. Their published files must be in
+    # library/publish_files for generate_configs, the analysis and the format checks.
     num_sim_args = {
-        "base": int(1e4),
-        "bonus": int(1e4),
+        # "base": int(1e5),
+        "bonus": int(1e5),
+        # "ante": int(1e5),
     }
 
     run_conditions = {
-        "run_sims": True,
+        "run_sims": False,
         "run_optimization": True,
-        "run_analysis": True,
-        "run_format_checks": True,
+        "run_analysis": False,
+        "run_format_checks": False,
     }
     target_modes = list(num_sim_args.keys())
 

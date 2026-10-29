@@ -279,7 +279,7 @@ class GameConfig(Config):
             "force_freegame": False,
         }
 
-        mode_maxwins = {"base": 5000, "bonus": 5000}
+        mode_maxwins = {"base": 5000, "bonus": 5000, "ante": 5000}
         # Contains all game-logic simulation conditions
         self.bet_modes = [
             BetMode(
@@ -318,6 +318,29 @@ class GameConfig(Config):
                         conditions=wincap_condition,
                     ),
                     Distribution(criteria="freegame", quota=0.1, conditions=freegame_condition),
+                ],
+            ),
+            # Enhanced Spins (ante): the base game at 2x cost with Vault Spins triggering ~4x as often.
+            # Same reels, scatter weights, multipliers and force flags as base; only quotas and
+            # optimisation targets (game_optimization.py) differ.
+            BetMode(
+                name="ante",
+                cost=2.0,
+                rtp=self.rtp,
+                max_win=mode_maxwins["ante"],
+                auto_close_disabled=False,
+                is_feature=True,
+                is_buybonus=False,
+                distributions=[
+                    Distribution(
+                        criteria="wincap",
+                        quota=0.001,
+                        win_criteria=mode_maxwins["ante"],
+                        conditions=wincap_condition,
+                    ),
+                    Distribution(criteria="freegame", quota=0.2, conditions=freegame_condition),
+                    Distribution(criteria="0", quota=0.3, win_criteria=0.0, conditions=zerowin_condition),
+                    Distribution(criteria="basegame", quota=0.5, conditions=basegame_condition),
                 ],
             ),
         ]

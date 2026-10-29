@@ -17,18 +17,23 @@ if __name__ == "__main__":
     compression = True
     profiling = False
 
+    # base, ante (Enhanced Spins, 2x), bonus (Free Spins buy, 200x) and super_bonus (Super Free Spins buy,
+    # 500x). Optimisation is run separately: afterwards set run_sims False and run_optimization (and
+    # run_analysis) True to optimise these books without re-simulating them.
     num_sim_args = {
-        "base": int(1e4),
-        "bonus": int(1e4),
+        "base": int(1e5),
+        # "ante": int(1e5),
+        # "bonus": int(1e5),
+        "super_bonus": int(1e5),
     }
 
     run_conditions = {
-        "run_sims": True,
+        "run_sims": False,
         "run_optimization": True,
-        "run_analysis": True,
-        "run_format_checks": True,
+        "run_analysis": False,
+        "run_format_checks": False,
     }
-    target_modes = ["base", "bonus"]
+    target_modes = list(num_sim_args.keys())
 
     config = GameConfig()
     gamestate = GameState(config)

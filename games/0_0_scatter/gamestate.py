@@ -34,7 +34,7 @@ class GameState(GameStateOverride):
     def run_freespin(self):
         self.reset_fs_spin()
         while self.fs < self.tot_fs:
-            # Resets global multiplier at each spin
+            # Resets the global multiplier at each spin, except in Super Free Spins (persistent_mult)
             self.update_freespin()
             self.draw_board()
 
