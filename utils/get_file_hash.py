@@ -33,8 +33,9 @@ def get_file_hash(*args: str) -> None:
     """Pass in a list of files to compare hash values"""
     hash_list = []
     for arg in args:
-        print(f"File: {arg.split("/")[-1]}\n{get_hash(arg)} \n\n")
-        hash_list.append(get_hash(arg))
+        file_hash = get_hash(arg)
+        print(f"File: {arg.split("/")[-1]}\n{file_hash} \n\n")
+        hash_list.append(file_hash)
 
 
 def get_all_directory_hash(dir_path: str, folder_depth: int = 1) -> None:

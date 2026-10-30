@@ -48,10 +48,12 @@ class Scatter:
         symbols_on_board = defaultdict(list)
         wild_positions = []
         total_win = 0.0
+        wild_names = set(config.special_symbols[wild_key])
         for reel_idx, reel in enumerate(board):
             for row_idx, symbol in enumerate(reel):
-                if symbol.name not in config.special_symbols[wild_key]:
-                    symbols_on_board[symbol.name].append({"reel": reel_idx, "row": row_idx})
+                symbol_name = symbol.name
+                if symbol_name not in wild_names:
+                    symbols_on_board[symbol_name].append({"reel": reel_idx, "row": row_idx})
                 else:
                     wild_positions.append({"reel": reel_idx, "row": row_idx})
 

@@ -70,16 +70,18 @@ class GameConfig(Config):
         self.include_padding = True
         self.special_symbols = {"wild": ["W"], "scatter": ["S"], "multiplier": ["M"]}
 
+        # The base-game award is 2 free spins per Scatter (game_executables.update_freespin_amount);
+        # the basegame table states it, and its smallest key sets the trigger size.
         self.freespin_triggers = {
             self.basegame_type: {
-                3: 8,
-                4: 12,
-                5: 15,
-                6: 17,
-                7: 19,
-                8: 21,
-                9: 23,
-                10: 24,
+                3: 6,
+                4: 8,
+                5: 10,
+                6: 12,
+                7: 14,
+                8: 16,
+                9: 18,
+                10: 20,
             },
             self.freegame_type: {
                 2: 3,
@@ -89,8 +91,8 @@ class GameConfig(Config):
                 6: 14,
                 7: 16,
                 8: 18,
-                9: 10,
-                10: 12,
+                9: 20,
+                10: 22,
             },
         }
         self.anticipation_triggers = {
@@ -106,7 +108,7 @@ class GameConfig(Config):
         self.padding_reels[self.basegame_type] = self.reels["BR0"]
         self.padding_reels[self.freegame_type] = self.reels["FR0"]
 
-        mode_maxwins = {"base": 5000, "bonus": 5000, "superspin": 2000}
+        mode_maxwins = {"base": 5000, "ante": 5000, "bonus": 5000, "super_bonus": 5000}
 
         self.bet_modes = [
             BetMode(
@@ -179,6 +181,81 @@ class GameConfig(Config):
                     ),
                 ],
             ),
+            # Enhanced Spins (ante): the base game at 2x cost with Free Spins triggering ~4x as often.
+            # Same reels, scatter weights, multipliers and force flags as base; only the quotas and the
+            # optimisation targets (game_optimization.py) differ.
+            BetMode(
+                name="ante",
+                cost=2.0,
+                rtp=self.rtp,
+                max_win=mode_maxwins["ante"],
+                auto_close_disabled=False,
+                is_feature=True,
+                is_buybonus=False,
+                distributions=[
+                    Distribution(
+                        criteria="wincap",
+                        quota=0.001,
+                        win_criteria=mode_maxwins["ante"],
+                        conditions={
+                            "reel_weights": {
+                                self.basegame_type: {"BR0": 1},
+                                self.freegame_type: {"FR0": 1, "WCAP": 5},
+                            },
+                            "mult_values": {
+                                self.basegame_type: {10: 10},
+                                self.freegame_type: {10: 10},
+                            },
+                            "scatter_triggers": {5: 2},
+                            "force_wincap": True,
+                            "force_freegame": True,
+                        },
+                    ),
+                    Distribution(
+                        criteria="freegame",
+                        quota=0.2,
+                        conditions={
+                            "reel_weights": {
+                                self.basegame_type: {"BR0": 1},
+                                self.freegame_type: {"FR0": 1},
+                            },
+                            "scatter_triggers": {4: 5, 5: 1},
+                            "mult_values": {
+                                self.basegame_type: {2: 100, 3: 80, 4: 50, 5: 20, 10: 10},
+                                self.freegame_type: {2: 100, 4: 80, 5: 50, 7: 20, 10: 10},
+                            },
+                            "force_wincap": False,
+                            "force_freegame": True,
+                        },
+                    ),
+                    Distribution(
+                        criteria="0",
+                        quota=0.3,
+                        win_criteria=0.0,
+                        conditions={
+                            "reel_weights": {self.basegame_type: {"BR0": 1}},
+                            "mult_values": {
+                                self.basegame_type: {2: 100, 4: 80, 5: 50, 7: 20, 10: 10},
+                                self.freegame_type: {2: 100, 4: 80, 5: 50, 7: 20, 10: 10},
+                            },
+                            "force_wincap": False,
+                            "force_freegame": False,
+                        },
+                    ),
+                    Distribution(
+                        criteria="basegame",
+                        quota=0.5,
+                        conditions={
+                            "reel_weights": {self.basegame_type: {"BR0": 1}},
+                            "mult_values": {self.basegame_type: {2: 100, 4: 80, 5: 50, 7: 20, 10: 10}},
+                            "force_wincap": False,
+                            "force_freegame": False,
+                        },
+                    ),
+                ],
+            ),
+            # Free Spins buy (200x): the global multiplier restarts at x1 on every free spin,
+            # as it does for Free Spins triggered in base and ante.
             BetMode(
                 name="bonus",
                 cost=200,
@@ -219,6 +296,56 @@ class GameConfig(Config):
                                 self.basegame_type: {2: 100, 4: 80, 5: 50, 7: 20, 10: 10},
                                 self.freegame_type: {2: 100, 4: 80, 5: 50, 7: 20, 10: 10},
                             },
+                            "force_wincap": False,
+                            "force_freegame": True,
+                        },
+                    ),
+                ],
+            ),
+            # Super Free Spins buy (500x): the same feature, but the global multiplier is never reset,
+            # so every tumble's +1 carries through all remaining free spins ("persistent_mult").
+            BetMode(
+                name="super_bonus",
+                cost=500,
+                rtp=self.rtp,
+                max_win=mode_maxwins["super_bonus"],
+                auto_close_disabled=False,
+                is_feature=False,
+                is_buybonus=True,
+                distributions=[
+                    Distribution(
+                        criteria="wincap",
+                        quota=0.001,
+                        win_criteria=mode_maxwins["super_bonus"],
+                        conditions={
+                            "reel_weights": {
+                                self.basegame_type: {"BR0": 1},
+                                self.freegame_type: {"FR0": 1, "WCAP": 5},
+                            },
+                            "mult_values": {
+                                self.basegame_type: {10: 10},
+                                self.freegame_type: {10: 10},
+                            },
+                            "scatter_triggers": {6: 1},
+                            "persistent_mult": True,
+                            "force_wincap": True,
+                            "force_freegame": True,
+                        },
+                    ),
+                    Distribution(
+                        criteria="freegame",
+                        quota=0.999,
+                        conditions={
+                            "reel_weights": {
+                                self.basegame_type: {"BR0": 1},
+                                self.freegame_type: {"FR0": 1},
+                            },
+                            "scatter_triggers": {4: 10, 5: 5, 6: 1},
+                            "mult_values": {
+                                self.basegame_type: {2: 100, 4: 80, 5: 50, 7: 20, 10: 10},
+                                self.freegame_type: {2: 100, 4: 80, 5: 50, 7: 20, 10: 10},
+                            },
+                            "persistent_mult": True,
                             "force_wincap": False,
                             "force_freegame": True,
                         },

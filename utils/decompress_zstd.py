@@ -24,7 +24,8 @@ def decompress(input_path: str, save_output: bool = False):
             for line in txt_stream:
                 if line.strip():
                     json_validate(line)
-                    lines.append(line)
+                    if save_output:
+                        lines.append(line)
 
     if save_output:
         with open("decompressed.jsonl", "w", encoding="UTF-8") as f:

@@ -1,7 +1,7 @@
 """Defines reusable events"""
 
-from copy import deepcopy
 from src.events.event_constants import EventConstants
+from src.state.books import _clone
 
 
 def json_ready_sym(symbol: object, special_attributes: list = None):
@@ -10,8 +10,9 @@ def json_ready_sym(symbol: object, special_attributes: list = None):
     print_sym = {"name": symbol.name}
 
     for attr in special_attributes:
-        if hasattr(symbol, attr) and getattr(symbol, attr):
-            print_sym[attr] = getattr(symbol, attr)
+        value = getattr(symbol, attr, None)
+        if value:
+            print_sym[attr] = _clone(value)  # mutable attribute values must not be shared with the symbol
         elif attr in symbol.defn.special_flags:
             print_sym[attr] = True
 
@@ -38,11 +39,11 @@ def reveal_event(gamestate):
         "index": len(gamestate.book.events),
         "type": EventConstants.REVEAL.value,
         "board": board_client,
-        "paddingPositions": gamestate.reel_positions,
+        "paddingPositions": list(gamestate.reel_positions),
         "gameType": gamestate.gametype,
-        "anticipation": gamestate.anticipation,
+        "anticipation": list(gamestate.anticipation),
     }
-    gamestate.book.add_event(event)
+    gamestate.book.add_event(event, copy=False)  # every value above is freshly built
 
 
 def fs_trigger_event(
@@ -142,7 +143,7 @@ def win_info_event(gamestate, include_padding_index=True):
     include_padding_index: starts winning-symbol positions at row=1, to account for top/bottom symbol inclusion in board
     """
     win_data_copy = {}
-    win_data_copy["wins"] = deepcopy(gamestate.win_data["wins"])
+    win_data_copy["wins"] = _clone(gamestate.win_data["wins"])
     for idx, w in enumerate(win_data_copy["wins"]):
         if include_padding_index:
             new_positions = []
@@ -173,7 +174,7 @@ def win_info_event(gamestate, include_padding_index=True):
         "totalWin": int(round(min(gamestate.win_data["totalWin"], gamestate.config.wincap) * 100, 0)),
         "wins": win_data_copy["wins"],
     }
-    gamestate.book.add_event(event)
+    gamestate.book.add_event(event, copy=False)  # wins were cloned above
 
 
 def update_tumble_win_event(gamestate):
@@ -254,7 +255,7 @@ def tumble_board_event(gamestate):
         "newSymbols": new_symbols,
         "explodingSymbols": exploding,
     }
-    gamestate.book.add_event(event)
+    gamestate.book.add_event(event, copy=False)  # every value above is freshly built
 
 
 def enter_bonus_event(gamestate) -> None:

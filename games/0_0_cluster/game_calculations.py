@@ -24,7 +24,6 @@ class GameCalculations(Executables):
         Determine payout amount from cluster, including symbol multiplier and global multiplier value.
         Game specific function which takes into account position multipliers.
         """
-        exploding_symbols = []
         total_win = 0
         for sym in clusters:
             for cluster in clusters[sym]:
@@ -57,11 +56,6 @@ class GameCalculations(Executables):
 
                     for positions in cluster:
                         board[positions[0]][positions[1]].explode = True
-                        if {
-                            "reel": positions[0],
-                            "row": positions[1],
-                        } not in exploding_symbols:
-                            exploding_symbols.append({"reel": positions[0], "row": positions[1]})
 
         return_data["totalWin"] += total_win
 

@@ -62,8 +62,12 @@ class GameExecutables(GameCalculations):
         """Called before a new reveal during freegame."""
         self.fs += 1
         update_freespin_event(self)
-        # This game does not reset the global multiplier on each spin
-        self.global_multiplier = 1
+        # Free Spins (base, ante and the 200x bonus) restart the global multiplier at x1 on every spin.
+        # Super Free Spins (the 500x super_bonus, "persistent_mult") keep it for the whole feature;
+        # reset_fs_spin starts it at x1 when the feature begins. The event is sent either way, so the
+        # client always knows the multiplier a spin starts with.
+        if not self.get_current_distribution_conditions().get("persistent_mult", False):
+            self.global_multiplier = 1
         update_global_mult_event(self)
         self.win_manager.reset_spin_win()
         self.tumblewin_mult = 0

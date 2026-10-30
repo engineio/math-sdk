@@ -78,15 +78,34 @@ def format_json_with_compact_names(data):
 
     # Use regex to find and compact simple name objects
     # Pattern: "name": "value" (with potential whitespace)
+    # (\s also matches newlines, so this covers simple objects spread over several lines too)
     compact_pattern = r'{\s*"name":\s*"([^"]+)"\s*}'
     pretty_json = re.sub(compact_pattern, r'{"name": "\1"}', pretty_json)
 
-    # Also handle nested cases where simple objects are in arrays
-    # Pattern for multi-line simple objects
-    multiline_pattern = r'{\s*\n\s*"name":\s*"([^"]+)"\s*\n\s*}'
-    pretty_json = re.sub(multiline_pattern, r'{"name": "\1"}', pretty_json, flags=re.MULTILINE)
-
     return pretty_json
+
+
+def format_jsonl_lines(lines, skip_invalid):
+    """Format each JSONL line. Invalid lines are skipped with a warning, or (skip_invalid=False) return None."""
+    formatted_lines = []
+    for line_num, line in enumerate(lines, 1):
+        line = line.strip()
+        if not line:
+            continue  # Skip empty lines in JSONL
+
+        try:
+            # Parse JSON
+            data = json.loads(line)
+        except json.JSONDecodeError as e:
+            if not skip_invalid:
+                return None
+            print(f"  ⚠️  Warning: Invalid JSON on line {line_num}: {e}")
+            print(f"       Line content: {line[:100]}...")
+            # Skip invalid lines instead of keeping them
+            continue
+        # Format with compact names
+        formatted_lines.append(format_json_with_compact_names(data))
+    return formatted_lines
 
 
 def process_json_file(file_path):
@@ -100,30 +119,14 @@ def process_json_file(file_path):
 
         if is_jsonl:
             # Handle JSONL format
-            # Try to reconstruct valid JSONL if the file is corrupted
-            if not is_valid_jsonl(content):
+            # Each line is parsed once. If any line is invalid (file corrupted), reconstruct JSONL and format that.
+            lines = content.strip().split("\n")
+            formatted_lines = format_jsonl_lines(lines, skip_invalid=False)
+            if formatted_lines is None:
                 print(f"  ⚠️  File appears corrupted, attempting to reconstruct JSONL format...")
                 content = reconstruct_jsonl(content)
-
-            lines = content.strip().split("\n")
-            formatted_lines = []
-
-            for line_num, line in enumerate(lines, 1):
-                line = line.strip()
-                if not line:
-                    continue  # Skip empty lines in JSONL
-
-                try:
-                    # Parse JSON
-                    data = json.loads(line)
-                    # Format with compact names
-                    formatted = format_json_with_compact_names(data)
-                    formatted_lines.append(formatted)
-                except json.JSONDecodeError as e:
-                    print(f"  ⚠️  Warning: Invalid JSON on line {line_num}: {e}")
-                    print(f"       Line content: {line[:100]}...")
-                    # Skip invalid lines instead of keeping them
-                    continue
+                lines = content.strip().split("\n")
+                formatted_lines = format_jsonl_lines(lines, skip_invalid=True)
 
             # Write back to file
             with open(file_path, "w", encoding="utf-8") as f:
