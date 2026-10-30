@@ -1,0 +1,36 @@
+name: Run Fracture Gods Divided Simulation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: pip install numpy zstandard xlsxwriter matplotlib toml
+
+      - name: Run Fracture simulation
+        working-directory: games/fracture_gods_divided
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: python3 run.py
+
+      - name: Upload math artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fracture-gods-divided-math
+          path: |
+            games/fracture_gods_divided/library/publish_files/
+            games/fracture_gods_divided/library/configs/
+          retention-days: 30
