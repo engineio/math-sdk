@@ -1,6 +1,6 @@
-from copy import copy, deepcopy
 from abc import ABC, abstractmethod
 from warnings import warn
+import json
 import random
 
 # from src.config.config import BetMode
@@ -25,8 +25,13 @@ class GeneralGameState(ABC):
         self.output_files = OutputFiles(self.config)
         self.win_manager = WinManager(self.config.basegame_type, self.config.freegame_type, config.wincap)
         self.library = {}
+        self._library_lines = []
+        self._event_examples = {}
         self.recorded_events = {}
         self._payout_ints = []
+        self._distribution_cache = {}
+        self._distribution_cache_modes = None
+        self._syms_on_reel_cache = {}
         self.special_symbol_functions = {}
         self.temp_wins = []
         self.create_symbol_map()
@@ -114,8 +119,28 @@ class GeneralGameState(ABC):
             if betmode.get_name() == self.betmode:
                 return betmode
 
+    def _get_current_distribution(self) -> object:
+        """Cached lookup of the current betmode's distribution for self.criteria. Returns None if not found."""
+        if self._distribution_cache_modes is not self.config.bet_modes:
+            self._distribution_cache = {}
+            self._distribution_cache_modes = self.config.bet_modes
+        key = (self.betmode, self.criteria)
+        dist = self._distribution_cache.get(key)
+        if dist is None:
+            for betmode in self.config.bet_modes:
+                if betmode.get_name() == self.betmode:
+                    for d in betmode.get_distributions():
+                        if d._criteria == self.criteria:
+                            dist = self._distribution_cache[key] = d
+                            break
+                    break
+        return dist
+
     def get_current_betmode_distributions(self) -> object:
         """Return current betmode criteria information."""
+        cached = self._get_current_distribution()
+        if cached is not None:
+            return cached
         dist = self.get_current_betmode().get_distributions()
         for c in dist:
             if c._criteria == self.criteria:
@@ -124,6 +149,9 @@ class GeneralGameState(ABC):
 
     def get_current_distribution_conditions(self) -> dict:
         """Return requirements for criteria setup/acceptance."""
+        cached = self._get_current_distribution()
+        if cached is not None:
+            return cached._conditions
         for d in self.get_betmode(self.betmode).get_distributions():
             if d._criteria == self.criteria:
                 return d._conditions
@@ -150,10 +178,10 @@ class GeneralGameState(ABC):
 
     def check_force_keys(self, description) -> None:
         """Check and append unique force-key parameters."""
-        current_mode_force_keys = self.get_current_betmode().get_force_keys()  # type:ignore
+        current_mode_force_keys = self.get_current_betmode().get_force_keys()  # type: ignore
         for keyValue in description:
             if keyValue[0] not in current_mode_force_keys:
-                self.get_current_betmode().add_force_key(keyValue[0])  # type:ignore
+                self.get_current_betmode().add_force_key(keyValue[0])  # type: ignore
 
     def combine(self, modes, betmode_name) -> None:
         """Retrieve unique force record keys."""
@@ -161,18 +189,19 @@ class GeneralGameState(ABC):
             for betmode in modeConfig:
                 if betmode.get_name() == betmode_name:
                     break
-            force_keys = betmode.get_force_keys()  # type:ignore
+            force_keys = betmode.get_force_keys()  # type: ignore
             for key in force_keys:
-                if key not in self.get_betmode(betmode_name).get_force_keys():  # type:ignore
-                    self.get_betmode(betmode_name).add_force_key(key)  # type:ignore
+                if key not in self.get_betmode(betmode_name).get_force_keys():  # type: ignore
+                    self.get_betmode(betmode_name).add_force_key(key)  # type: ignore
 
     def imprint_wins(self) -> None:
         """Record all events to library if criteria conditions are satisfied."""
         for temp_win_index in range(int(len(self.temp_wins) / 2)):
             description = tuple(sorted(self.temp_wins[2 * temp_win_index].items()))
             book_id = self.temp_wins[2 * temp_win_index + 1]
+            # Book ids are imprinted in increasing order, so an already-recorded id can only be the last entry.
             if description in self.recorded_events and (
-                book_id not in self.recorded_events[description]["bookIds"]
+                self.recorded_events[description]["bookIds"][-1] != book_id
             ):
                 self.recorded_events[description]["timesTriggered"] += 1
                 self.recorded_events[description]["bookIds"] += [book_id]
@@ -183,7 +212,17 @@ class GeneralGameState(ABC):
                     "bookIds": [book_id],
                 }
         self.temp_wins = []
-        self.library[self.sim + 1] = copy(self.book.to_json())
+        # Store the book as JSON text (~10x smaller than the Python objects, and not tracked by the GC).
+        # The library keeps only the summary fields used for lookup tables and pay splits.
+        book_json = self.book.to_json()
+        self._library_lines.append(json.dumps(book_json))
+        for event in book_json["events"]:
+            event_type = event.get("type")
+            if event_type not in self._event_examples:
+                self._event_examples[event_type] = event
+        self.library[self.sim + 1] = {
+            key: book_json[key] for key in ("id", "payoutMultiplier", "criteria", "baseGameWins", "freeGameWins")
+        }
         self._payout_ints.append(self.library[self.sim + 1]["payoutMultiplier"])
         self.win_manager.update_end_round_wins()
 
@@ -257,6 +296,8 @@ class GeneralGameState(ABC):
 
         self.win_manager = WinManager(self.config.basegame_type, self.config.freegame_type, mode_max_win)
         self.library = {}
+        self._library_lines = []
+        self._event_examples = {}
         self.recorded_events = {}
         self.betmode = betmode
         self.num_sims = num_sims
@@ -286,5 +327,6 @@ class GeneralGameState(ABC):
         make_lookup_pay_split(self, self.output_files.get_temp_segmented_name(betmode, thread_index, repeat_count))
 
         if write_event_list:
-            write_library_events(self, list(self.library.values()), betmode)
+            # One book-shaped entry holding the first example of each event type, in first-seen order.
+            write_library_events(self, [{"events": list(self._event_examples.values())}], betmode)
         betmode_copy_list.append(self.config.bet_modes)

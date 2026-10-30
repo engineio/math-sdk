@@ -46,9 +46,8 @@ def run(game_id: str, swap_key: str, mode_cost: float, plot_overlay=False, overr
 
     base_fg_norm = [x / fg_total for x in base_table.weight_mapping[swap_key]]
     new_fg_norm = [x / new_fg_total for x in fg_weight_contribution]
-    bonus_norm = [
-        x / np.array(bonus_table.weight_mapping[swap_key]).sum() for x in bonus_table.weight_mapping[swap_key]
-    ]
+    bonus_fg_total = np.array(bonus_table.weight_mapping[swap_key]).sum()
+    bonus_norm = [x / bonus_fg_total for x in bonus_table.weight_mapping[swap_key]]
 
     if override_table:
         file_name = f"games/{game_id}/library/publish_files/LookUpTable_base_0.csv"

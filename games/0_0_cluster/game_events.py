@@ -1,7 +1,14 @@
-from copy import deepcopy
-
 APPLY_TUMBLE_MULTIPLIER = "applyMultiplierToTumble"
 UPDATE_GRID = "updateGrid"
+
+
+def _clone(obj: object):
+    t = type(obj)
+    if t == dict:
+        return {k: _clone(v) for k, v in obj.items()}
+    elif t == list:
+        return [_clone(x) for x in obj]
+    return obj
 
 
 def update_grid_mult_event(gamestate):
@@ -9,6 +16,6 @@ def update_grid_mult_event(gamestate):
     event = {
         "index": len(gamestate.book.events),
         "type": UPDATE_GRID,
-        "gridMultipliers": deepcopy(gamestate.position_multipliers),
+        "gridMultipliers": _clone(gamestate.position_multipliers),
     }
     gamestate.book.add_event(event)

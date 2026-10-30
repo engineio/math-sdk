@@ -6,7 +6,6 @@ import shutil
 import os
 import hashlib
 import json
-import ast
 import pickle as _pickle
 import zstandard as zstd
 
@@ -146,7 +145,8 @@ def output_lookup_and_force_files(
 
     if compress:
         final_out = gamestate.output_files.get_final_book_name(betmode, True)
-        compressor = zstd.ZstdCompressor()
+        # All simulation workers have finished, so use every core. Output is identical for any thread count >= 1.
+        compressor = zstd.ZstdCompressor(threads=-1)
         with open(final_out, "wb") as f_out:
             with compressor.stream_writer(f_out, closefd=False) as writer:
                 for fname in file_list:
@@ -189,7 +189,8 @@ def output_lookup_and_force_files(
             )
 
     for filename in file_list:
-        force_chunk = ast.literal_eval(json.load(open(filename, "r", encoding="UTF-8")))
+        with open(filename, "rb") as f:
+            force_chunk = _pickle.load(f)
         for key in force_chunk:
             if force_results_dict.get(key) is not None:
                 force_results_dict[key]["timesTriggered"] += force_chunk[key]["timesTriggered"]
@@ -296,7 +297,7 @@ def output_lookup_and_force_files(
 
 def write_json(gamestate, filename: str, payout_ints=None):
     """Convert the list of dictionaries to a JSON-encoded string and compress it in chunks."""
-    json_objects = [json.dumps(item) for item in gamestate.library.values()]
+    json_objects = gamestate._library_lines  # books are JSON-encoded once, at imprint_wins()
     combined_data = "\n".join(json_objects) + "\n"
 
     if filename.endswith(".zst"):
@@ -309,8 +310,8 @@ def write_json(gamestate, filename: str, payout_ints=None):
             if not (gamestate.config.output_regular_json):
                 f.write(combined_data)
             else:
-                j_regular = [item for item in gamestate.library.values()]
-                f.write(json.dumps(j_regular))
+                # identical to json.dumps(list_of_books)
+                f.write("[" + ", ".join(json_objects) + "]")
 
     # Write payout sidecar if captured at imprint_wins
     if payout_ints is not None:
@@ -322,7 +323,5 @@ def write_json(gamestate, filename: str, payout_ints=None):
 
 def print_recorded_wins(gamestate: object, name: str = ""):
     """Temporary file generation for wins/recorded results."""
-    json_object = json.dumps(str(gamestate.recorded_events), indent=4)
-    file = open(name, "w", encoding="UTF-8")
-    file.write(json_object)
-    file.close()
+    with open(name, "wb") as file:
+        _pickle.dump(gamestate.recorded_events, file, protocol=_pickle.HIGHEST_PROTOCOL)

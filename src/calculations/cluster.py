@@ -25,25 +25,21 @@ class Cluster:
         return (reel_to_overlay, row_to_overlay)
 
     @staticmethod
-    def get_neighbours(board: list[list[Symbol]], reel: int, row: int, local_checked: list) -> list:
+    def get_neighbours(board: list[list[Symbol]], reel: int, row: int, local_checked: set) -> list:
         """All neighbouring symbols within board range."""
         neighbours = []
-        if reel > 0:
-            if (reel - 1, row) not in local_checked:
-                neighbours += [(reel - 1, row)]
-                local_checked += [(reel - 1, row)]
-        if reel < len(board) - 1:
-            if (reel + 1, row) not in local_checked:
-                neighbours += [(reel + 1, row)]
-                local_checked += [(reel + 1, row)]
-        if row > 0:
-            if (reel, row - 1) not in local_checked:
-                neighbours += [(reel, row - 1)]
-                local_checked += [(reel, row - 1)]
-        if row < len(board[reel]) - 1:
-            if (reel, row + 1) not in local_checked:
-                neighbours += [(reel, row + 1)]
-                local_checked += [(reel, row + 1)]
+        if reel > 0 and (reel - 1, row) not in local_checked:
+            neighbours.append((reel - 1, row))
+            local_checked.add((reel - 1, row))
+        if reel < len(board) - 1 and (reel + 1, row) not in local_checked:
+            neighbours.append((reel + 1, row))
+            local_checked.add((reel + 1, row))
+        if row > 0 and (reel, row - 1) not in local_checked:
+            neighbours.append((reel, row - 1))
+            local_checked.add((reel, row - 1))
+        if row < len(board[reel]) - 1 and (reel, row + 1) not in local_checked:
+            neighbours.append((reel, row + 1))
+            local_checked.add((reel, row + 1))
         return neighbours
 
     @staticmethod
@@ -55,8 +51,8 @@ class Cluster:
     @staticmethod
     def check_all_neighbours(
         board: Board,
-        already_checked: list,
-        local_checked: list,
+        already_checked: set,
+        local_checked: set,
         potential_cluster: list,
         reel,
         row,
@@ -67,8 +63,8 @@ class Cluster:
         neighbours = Cluster.get_neighbours(board, reel, row, local_checked)
         for reel_, row_ in neighbours:
             if Cluster.in_cluster(board, reel_, row_, og_symbol, wild_key):
-                potential_cluster += [(reel_, row_)]
-                already_checked += [(reel_, row_)]
+                potential_cluster.append((reel_, row_))
+                already_checked.add((reel_, row_))
                 Cluster.check_all_neighbours(
                     board,
                     already_checked,
@@ -83,25 +79,51 @@ class Cluster:
     @staticmethod
     def get_clusters(board: list[list[Symbol]], wild_key: str = "wild") -> dict:
         """Return all symbol clusters of size >= 1."""
-        already_checked = []
+        # Equivalent to get_neighbours()/in_cluster()/check_all_neighbours() recursion (same visiting order),
+        # with symbol names and wild flags looked up once per board instead of once per neighbour check.
+        names = [[sym.name for sym in reel] for reel in board]
+        wilds = [[sym.check_attribute(wild_key) for sym in reel] for reel in board]
+        last_reel = len(board) - 1
+
+        def matching_neighbours(reel, row, local_checked, symbol):
+            """Mark unchecked neighbours as checked and return those belonging to the cluster."""
+            matches = []
+            if reel > 0 and (reel - 1, row) not in local_checked:
+                local_checked.add((reel - 1, row))
+                if wilds[reel - 1][row] or names[reel - 1][row] == symbol:
+                    matches.append((reel - 1, row))
+            if reel < last_reel and (reel + 1, row) not in local_checked:
+                local_checked.add((reel + 1, row))
+                if wilds[reel + 1][row] or names[reel + 1][row] == symbol:
+                    matches.append((reel + 1, row))
+            if row > 0 and (reel, row - 1) not in local_checked:
+                local_checked.add((reel, row - 1))
+                if wilds[reel][row - 1] or names[reel][row - 1] == symbol:
+                    matches.append((reel, row - 1))
+            if row < len(board[reel]) - 1 and (reel, row + 1) not in local_checked:
+                local_checked.add((reel, row + 1))
+                if wilds[reel][row + 1] or names[reel][row + 1] == symbol:
+                    matches.append((reel, row + 1))
+            return matches
+
+        already_checked = set()
         clusters = defaultdict(list)
         for reel, _ in enumerate(board):
             for row, _ in enumerate(board[reel]):
-                if (reel, row) not in already_checked and not (board[reel][row].check_attribute(wild_key)):
+                if (reel, row) not in already_checked and not wilds[reel][row]:
                     potential_cluster = [(reel, row)]
-                    already_checked += [(reel, row)]
-                    local_checked = [(reel, row)]
-                    symbol = board[reel][row].name
-                    Cluster.check_all_neighbours(
-                        board,
-                        already_checked,
-                        local_checked,
-                        potential_cluster,
-                        reel,
-                        row,
-                        symbol,
-                        wild_key,
-                    )
+                    already_checked.add((reel, row))
+                    local_checked = {(reel, row)}
+                    symbol = names[reel][row]
+                    stack = [iter(matching_neighbours(reel, row, local_checked, symbol))]
+                    while stack:
+                        position = next(stack[-1], None)
+                        if position is None:
+                            stack.pop()
+                            continue
+                        potential_cluster.append(position)
+                        already_checked.add(position)
+                        stack.append(iter(matching_neighbours(position[0], position[1], local_checked, symbol)))
                     clusters[symbol].append(potential_cluster)
 
         return clusters
@@ -116,7 +138,6 @@ class Cluster:
         return_data: dict = {"totalWin": 0, "wins": []},
     ) -> type:
         """Determine payout amount from cluster, including symbol multiplier and global multiplier value."""
-        exploding_symbols = []
         total_win = 0
         for sym in clusters:
             for cluster in clusters[sym]:
@@ -151,11 +172,6 @@ class Cluster:
 
                     for positions in cluster:
                         board[positions[0]][positions[1]].explode = True
-                        if {
-                            "reel": positions[0],
-                            "row": positions[1],
-                        } not in exploding_symbols:
-                            exploding_symbols.append({"reel": positions[0], "row": positions[1]})
 
         return board, return_data, total_win
 

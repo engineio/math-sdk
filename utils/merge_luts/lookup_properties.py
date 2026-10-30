@@ -76,8 +76,9 @@ def calculate_new_freegame_probabilities(
     counter = 0
 
     total_base_weight = base_table.total_weight
+    freegame_indices = set(base_table.criteria_mapping[freegame_key])
     for idx, bp in enumerate(base_table.payouts):
-        if idx in base_table.criteria_mapping[freegame_key]:
+        if idx in freegame_indices:
             assert bp == bonus_table.win_mapping[freegame_key][counter]
             w = target_hr * (bonus_table.weight_mapping[freegame_key][counter] / bonus_table.total_weight)
             fg_rtp_contribution += bp * w

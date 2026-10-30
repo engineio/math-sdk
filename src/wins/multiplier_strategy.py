@@ -14,14 +14,15 @@ def apply_mult(
     multiplier_key: str = "multiplier",
 ):
     """Apply multiplier method to win_amount and winning symbol positions."""
+    # Only evaluate the requested strategy (unknown strategies raise KeyError, as before).
     strat = {
-        "global": apply_global_mult(win_amount, global_multiplier),
-        "symbol": apply_added_symbol_mult(board, win_amount, positions, multiplier_key=multiplier_key),
-        "combined": apply_combined_mult(
+        "global": lambda: apply_global_mult(win_amount, global_multiplier),
+        "symbol": lambda: apply_added_symbol_mult(board, win_amount, positions, multiplier_key=multiplier_key),
+        "combined": lambda: apply_combined_mult(
             board, win_amount, global_multiplier, positions, multiplier_key=multiplier_key
         ),
     }
-    return strat[strategy]
+    return strat[strategy]()
 
 
 def apply_global_mult(win_amount: float, global_multiplier: int) -> tuple:

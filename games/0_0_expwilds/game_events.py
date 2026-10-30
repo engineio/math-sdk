@@ -1,6 +1,5 @@
 """Events specific to new and updating expanding wild symbols."""
 
-from copy import deepcopy
 from src.events.event_constants import EventConstants
 from src.events.events import json_ready_sym
 
@@ -9,6 +8,15 @@ UPDATE_EXP_WILDS = "updateExpandingWilds"
 NEW_STICKY_SYMS = "newStickySymbols"
 WIN_DATA = "winInfo"
 PRIZE_WIN_DATA = "prizeWinInfo"
+
+
+def _clone_wilds(obj: object):
+    """Clone wild objects"""
+    if isinstance(obj, list):
+        return [_clone_wilds(x) for x in obj]
+    elif isinstance(obj, dict):
+        return {k: _clone_wilds(v) for k, v in obj.items()}
+    return obj
 
 
 def new_expanding_wild_event(gamestate) -> None:
@@ -24,7 +32,7 @@ def new_expanding_wild_event(gamestate) -> None:
 
 def update_expanding_wild_event(gamestate) -> None:
     """On each reveal - the multiplier value on the expanding wild is updated (sent before reveal)"""
-    existing_wild_details = deepcopy(gamestate.expanding_wilds)
+    existing_wild_details = _clone_wilds(gamestate.expanding_wilds)
     wild_event = []
     if gamestate.config.include_padding:
         for ew in existing_wild_details:
@@ -52,7 +60,7 @@ def win_info_prize_event(gamestate, include_padding_index=True):
     include_padding_index: starts winning-symbol positions at row=1, to account for top/bottom symbol inclusion in board
     """
     win_data_copy = {}
-    win_data_copy["wins"] = deepcopy(gamestate.win_data["wins"])
+    win_data_copy["wins"] = _clone_wilds(gamestate.win_data["wins"])
     prize_details = []
     for _, w in enumerate(win_data_copy["wins"]):
         if include_padding_index:

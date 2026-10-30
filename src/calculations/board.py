@@ -29,17 +29,13 @@ class Board(GeneralGameState):
         first_scatter_reel = -1
         for reel in range(self.config.num_reels):
             reel_pos = reel_positions[reel]
+            strip = self.reelstrip[reel]
+            strip_len = len(strip)
             if self.config.include_padding:
-                top_symbols.append(
-                    self.create_symbol(self.reelstrip[reel][(reel_pos - 1) % len(self.reelstrip[reel])])
-                )
-                bottom_symbols.append(
-                    self.create_symbol(
-                        self.reelstrip[reel][(reel_pos + len(board[reel])) % len(self.reelstrip[reel])]
-                    )
-                )
+                top_symbols.append(self.create_symbol(strip[(reel_pos - 1) % strip_len]))
+                bottom_symbols.append(self.create_symbol(strip[(reel_pos + len(board[reel])) % strip_len]))
             for row in range(self.config.num_rows[reel]):
-                sym_id = self.reelstrip[reel][(reel_pos + row) % len(self.reelstrip[reel])]
+                sym_id = strip[(reel_pos + row) % strip_len]
                 sym = self.create_symbol(sym_id)
                 board[reel][row] = sym
                 if sym.defn.special:
@@ -54,7 +50,7 @@ class Board(GeneralGameState):
                                     and first_scatter_reel == -1
                                 ):
                                     first_scatter_reel = reel + 1
-            padding_positions[reel] = (reel_positions[reel] + len(board[reel]) + 1) % len(self.reelstrip[reel])
+            padding_positions[reel] = (reel_positions[reel] + len(board[reel]) + 1) % strip_len
 
         if first_scatter_reel > -1 and first_scatter_reel != self.config.num_reels:
             count = 1
@@ -269,6 +265,11 @@ class Board(GeneralGameState):
     def get_syms_on_reel(self, reel_id: str, target_symbol: str) -> List[List]:
         """Return reelstop positions for a specific symbol name."""
         reel = self.config.reels[reel_id]
+        # Reelstrips are static, so cache the scan; it is recomputed if the reelstrip object is replaced.
+        cache = self._syms_on_reel_cache
+        cached = cache.get((reel_id, target_symbol))
+        if cached is not None and cached[0] is reel:
+            return [list(positions) for positions in cached[1]]
         reelstop_positions = [[] for _ in range(self.config.num_reels)]
         for r in range(self.config.num_reels):
             for s in range(len(reel[r])):
@@ -280,6 +281,7 @@ class Board(GeneralGameState):
                 elif reel[r][s] == target_symbol:
                     reelstop_positions[r].append(s)
 
+        cache[(reel_id, target_symbol)] = (reel, [list(positions) for positions in reelstop_positions])
         return reelstop_positions
 
     def count_special_symbols(self, special_sym_criteria: str) -> int:

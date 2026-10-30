@@ -38,11 +38,12 @@ class Lines:
             "totalWin": 0,
             "wins": [],
         }
+        # Wild status of every board position, evaluated once per board rather than once per payline position.
+        wilds = [[sym.check_attribute(wild_key) for sym in reel] for reel in board]
 
-        for line_index in config.paylines.keys():
-            line = config.paylines[line_index]
+        for line_index, line in config.paylines.items():
             first_sym = board[0][line[0]]
-            finished_wild_win = False if first_sym.check_attribute(wild_key) else True
+            finished_wild_win = False if wilds[0][line[0]] else True
             first_non_wild = first_sym if finished_wild_win else None
             potential_line = [first_sym]
 
@@ -53,12 +54,12 @@ class Lines:
             for reel in range(1, len(line)):
                 sym = board[reel][line[reel]]
                 if finished_wild_win:
-                    if sym.name == first_non_wild.name or sym.check_attribute(wild_key):
+                    if sym.name == first_non_wild.name or wilds[reel][line[reel]]:
                         matches += 1
                     else:
                         break
                 else:
-                    if sym.check_attribute(wild_key) and first_non_wild is None:
+                    if wilds[reel][line[reel]] and first_non_wild is None:
                         wild_matches += 1
                     elif first_non_wild is None:
                         first_non_wild = sym
