@@ -1,0 +1,26 @@
+{
+  "mode": "bonus",
+  "bookCount": 10000,
+  "firstBookId": 0,
+  "lastBookId": 9999,
+  "eventCounts": {
+    "destinyWildCollected": 28894,
+    "enterBonus": 10000,
+    "finalWin": 10000,
+    "freeSpinEnd": 10000,
+    "reveal": 59339,
+    "rtpComponentSummary": 10000,
+    "setTotalWin": 59339,
+    "setWin": 32481,
+    "soulFreeSpinSummary": 10000,
+    "soulFreeSpinTrigger": 10000,
+    "soulLevelUp": 2669,
+    "soulWildConsumed": 24572,
+    "soulWildPlaced": 59712,
+    "tumbleBoard": 40113,
+    "updateFreeSpin": 59339,
+    "updateTumbleWin": 40113,
+    "winInfo": 40113
+  },
+  "status": "passed"
+}

@@ -1,0 +1,367 @@
+{
+  "gameId": "0_0_sanguo_wuxing",
+  "mathVersion": "m2c.0.0",
+  "label": "m2c_candidate_100k",
+  "reels": {
+    "BR0": {
+      "profile": "m2b_feature_adjusted",
+      "seed": 906502183,
+      "reelLength": 719,
+      "w2ActiveReels": 4,
+      "baseCountsPerReel": {
+        "H1": 20,
+        "H2": 28,
+        "H3": 36,
+        "H4": 45,
+        "H5": 53,
+        "L1": 76,
+        "L2": 91,
+        "L3": 106,
+        "L4": 120,
+        "L5": 142,
+        "W1": 1,
+        "W2": 1
+      },
+      "inactiveW2Replacement": "H1",
+      "sha256": "ec90278c94ac76366bbe7000986cba3b1a36aaf238d54589de5128dbcba3426c"
+    },
+    "FR0": {
+      "profile": "m2c_natural_freegame",
+      "seed": 906764326,
+      "reelLength": 7190,
+      "countsPerReel": [
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1361,
+          "W1": 0,
+          "W2": 79
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1361,
+          "W1": 0,
+          "W2": 79
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1361,
+          "W1": 0,
+          "W2": 79
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1361,
+          "W1": 0,
+          "W2": 79
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1361,
+          "W1": 0,
+          "W2": 79
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1362,
+          "W1": 0,
+          "W2": 78
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1362,
+          "W1": 0,
+          "W2": 78
+        }
+      ],
+      "sha256": "9f970a645601309fbefddce651857e70026b07e2cda0c63be9750d540df0bdce"
+    },
+    "FRB0": {
+      "profile": "m2c_bonus_buy_100x",
+      "seed": 56672512,
+      "reelLength": 7190,
+      "countsPerReel": [
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1357,
+          "W1": 0,
+          "W2": 83
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1357,
+          "W1": 0,
+          "W2": 83
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1357,
+          "W1": 0,
+          "W2": 83
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1357,
+          "W1": 0,
+          "W2": 83
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        }
+      ],
+      "sha256": "94321dc88601c7fd8ae268711871a1d7a6ce28f7df5a740bb7b31099385a9ca1"
+    }
+  },
+  "modes": {
+    "base": {
+      "simulationCount": 100000,
+      "costX": 1.0,
+      "rtp": 0.9799460000000001,
+      "rtp95ConfidenceInterval": [
+        0.7562135556223735,
+        1.2036784443776267
+      ],
+      "baseGameRtp": 0.6768220000000338,
+      "freeGameRtp": 0.3031239999999998,
+      "hitRate": 0.34194,
+      "averageRawPayoutX": 0.9799460000000001,
+      "standardDeviationRawX": 36.09714850562415,
+      "maximumObservedRawX": 7446.8,
+      "wincapCount": 0,
+      "freegameTriggerCount": 476,
+      "freegameTriggerRate": 0.00476,
+      "averageSpinsAwarded": 5.859243697478991,
+      "averageCollectedW2": 3.4894957983193278,
+      "finalLevelDistribution": {
+        "1": 398,
+        "2": 54,
+        "3": 16,
+        "4": 4,
+        "5": 3,
+        "6": 1
+      },
+      "spinsAwardedDistribution": {
+        "5": 398,
+        "9": 54,
+        "12": 16,
+        "14": 4,
+        "16": 3,
+        "17": 1
+      },
+      "rtpComponents": {
+        "earth": 0.006946000000000002,
+        "fire": 0.0039640000000000005,
+        "freeNatural": 0.1501240000000001,
+        "mega": 0.02987600000000003,
+        "metal": 0.002376,
+        "natural": 0.47125600000002205,
+        "rescue": 0.02428600000000001,
+        "return": 0.025399999999999954,
+        "roundMultiplier": 0.10174200000000008,
+        "soulMultiplier": 0.153,
+        "water": 5e-05,
+        "wood": 0.010926000000000003
+      },
+      "eventCounts": {
+        "dualWildTriggerCandidate": 476,
+        "soulFreeSpinTrigger": 476,
+        "destinyWildCollected": 1287,
+        "soulLevelUp": 115,
+        "soulWildPlaced": 2805,
+        "soulWildConsumed": 1120,
+        "soulFreeSpinSummary": 476,
+        "freeSpinEnd": 476,
+        "wincap": 0
+      },
+      "verification": {
+        "payout_hash": "58745d8c90e0e347231cb2bd799a4f28",
+        "file_hash": "e5154fc8c184a9ccea5d8a890591d1433a298815158eb6111514673aee78182c",
+        "num_entries": 100000
+      }
+    },
+    "bonus": {
+      "simulationCount": 100000,
+      "costX": 100.0,
+      "rtp": 0.9645972400000001,
+      "rtp95ConfidenceInterval": [
+        0.9058631779555777,
+        1.0233313020444226
+      ],
+      "baseGameRtp": 0.0,
+      "freeGameRtp": 0.9645972399999947,
+      "hitRate": 0.94576,
+      "averageRawPayoutX": 96.45972400000001,
+      "standardDeviationRawX": 947.6194504796974,
+      "maximumObservedRawX": 26120.6,
+      "wincapCount": 0,
+      "freegameTriggerCount": 100000,
+      "freegameTriggerRate": 1.0,
+      "averageSpinsAwarded": 5.97499,
+      "averageCollectedW2": 3.71223,
+      "finalLevelDistribution": {
+        "1": 81298,
+        "2": 13331,
+        "3": 3174,
+        "4": 1442,
+        "5": 305,
+        "6": 226,
+        "7": 224
+      },
+      "spinsAwardedDistribution": {
+        "5": 81298,
+        "9": 13331,
+        "12": 3174,
+        "14": 1442,
+        "16": 305,
+        "17": 226,
+        "18": 224
+      },
+      "rtpComponents": {
+        "freeNatural": 0.3799722399999915,
+        "soulMultiplier": 0.584625
+      },
+      "eventCounts": {
+        "dualWildTriggerCandidate": 0,
+        "soulFreeSpinTrigger": 100000,
+        "destinyWildCollected": 291507,
+        "soulLevelUp": 27699,
+        "soulWildPlaced": 601409,
+        "soulWildConsumed": 250641,
+        "soulFreeSpinSummary": 100000,
+        "freeSpinEnd": 100000,
+        "wincap": 0
+      },
+      "verification": {
+        "payout_hash": "457d8c6a12bc32e99729718b56085d2b",
+        "file_hash": "b780585b1d933eb31fa391afc73fd8a9601381a082db0cf1669551656421f7ae",
+        "num_entries": 100000
+      }
+    }
+  }
+}

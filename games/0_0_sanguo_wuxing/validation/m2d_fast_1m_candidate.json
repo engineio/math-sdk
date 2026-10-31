@@ -1,0 +1,451 @@
+{
+  "gameId": "0_0_sanguo_wuxing",
+  "mathVersion": "m2d.0.0-candidate",
+  "method": "eventless-exact-state-machine-v1",
+  "seedContract": "string_to_int(criteria)+simulation_index",
+  "status": "development-candidate-not-certified",
+  "selectedReels": {
+    "BR0": {
+      "profile": "m2b_feature_adjusted",
+      "seed": 906502183,
+      "reelLength": 719,
+      "w2ActiveReels": 4,
+      "baseCountsPerReel": {
+        "H1": 20,
+        "H2": 28,
+        "H3": 36,
+        "H4": 45,
+        "H5": 53,
+        "L1": 76,
+        "L2": 91,
+        "L3": 106,
+        "L4": 120,
+        "L5": 142,
+        "W1": 1,
+        "W2": 1
+      },
+      "inactiveW2Replacement": "H1",
+      "sha256": "ec90278c94ac76366bbe7000986cba3b1a36aaf238d54589de5128dbcba3426c"
+    },
+    "FR0": {
+      "profile": "m2d_natural_freegame",
+      "seed": 906764326,
+      "reelLength": 7190,
+      "countsPerReel": [
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1359,
+          "W1": 0,
+          "W2": 81
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1359,
+          "W1": 0,
+          "W2": 81
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1359,
+          "W1": 0,
+          "W2": 81
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1359,
+          "W1": 0,
+          "W2": 81
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1359,
+          "W1": 0,
+          "W2": 81
+        }
+      ],
+      "sha256": "3aaa1c605b6adf6a5669f9da67b4671a88a14e5deac99eea79e4fb5f4351a42b"
+    },
+    "FRB0": {
+      "profile": "m2d_bonus_buy_100x",
+      "seed": 56672512,
+      "reelLength": 7190,
+      "countsPerReel": [
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1357,
+          "W1": 0,
+          "W2": 83
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1357,
+          "W1": 0,
+          "W2": 83
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1357,
+          "W1": 0,
+          "W2": 83
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        },
+        {
+          "H1": 200,
+          "H2": 280,
+          "H3": 360,
+          "H4": 450,
+          "H5": 530,
+          "L1": 760,
+          "L2": 910,
+          "L3": 1060,
+          "L4": 1200,
+          "L5": 1358,
+          "W1": 0,
+          "W2": 82
+        }
+      ],
+      "sha256": "3ea096f144d221daa1dde3da76ab45a47401ae6e1346a3e1d7c028d2e08a4e56"
+    }
+  },
+  "modes": {
+    "base": {
+      "simulationCount": 1000000,
+      "costX": 1.0,
+      "rtp": 0.9471212000000025,
+      "rtpStandardError": 0.04356873584753635,
+      "rtp95ConfidenceInterval": [
+        0.8617264777388313,
+        1.0325159222611737
+      ],
+      "baseGameRtp": 0.6778736000000228,
+      "freeGameRtp": 0.26924760000000003,
+      "hitRate": 0.342,
+      "averageRawPayoutX": 0.9471212000000025,
+      "standardDeviationRawX": 43.56873584753635,
+      "maximumObservedRawX": 17166.2,
+      "wincapCount": 0,
+      "triggerCount": 4488,
+      "triggerRate": 0.004488,
+      "averageSpinsAwarded": 5.890374331550802,
+      "averageCollectedW2": 3.554812834224599,
+      "finalLevelDistribution": {
+        "1": 3681,
+        "2": 621,
+        "3": 109,
+        "4": 57,
+        "5": 10,
+        "6": 4,
+        "7": 6
+      },
+      "payoutQuantilesRawX": {
+        "0.5": 0.0,
+        "0.9": 2.0,
+        "0.99": 6.4,
+        "0.999": 37.2,
+        "0.9999": 682.0
+      },
+      "rtpComponents": {
+        "earth": 0.0068604,
+        "fire": 0.003749000000000001,
+        "freeNatural": 0.1319776,
+        "mega": 0.02929460000000002,
+        "metal": 0.0024096,
+        "natural": 0.4710298000000309,
+        "rescue": 0.024786000000000023,
+        "return": 0.026259199999999976,
+        "roundMultiplier": 0.10195059999999997,
+        "soulMultiplier": 0.13727,
+        "water": 8.740000000000001e-05,
+        "wood": 0.011446999999999997
+      },
+      "elapsedSeconds": 140.2359480857849
+    },
+    "bonus": {
+      "simulationCount": 1000000,
+      "costX": 100.0,
+      "rtp": 0.9546342860000039,
+      "rtpStandardError": 0.00946928237240813,
+      "rtp95ConfidenceInterval": [
+        0.9360744925500839,
+        0.9731940794499239
+      ],
+      "baseGameRtp": 0.0,
+      "freeGameRtp": 0.9546342860000039,
+      "hitRate": 0.944908,
+      "averageRawPayoutX": 95.46342860000038,
+      "standardDeviationRawX": 946.9282372408129,
+      "maximumObservedRawX": 35105.4,
+      "wincapCount": 0,
+      "triggerCount": 1000000,
+      "triggerRate": 1.0,
+      "averageSpinsAwarded": 5.97619,
+      "averageCollectedW2": 3.71473,
+      "finalLevelDistribution": {
+        "1": 811512,
+        "2": 135848,
+        "3": 31252,
+        "4": 13988,
+        "5": 2998,
+        "6": 2062,
+        "7": 2340
+      },
+      "payoutQuantilesRawX": {
+        "0.5": 3.6,
+        "0.9": 49.4,
+        "0.99": 640.0,
+        "0.999": 16269.4,
+        "0.9999": 22777.2
+      },
+      "rtpComponents": {
+        "freeNatural": 0.3740052859999914,
+        "soulMultiplier": 0.580629
+      },
+      "elapsedSeconds": 898.6922578811646
+    }
+  },
+  "sourceFiles": {
+    "base": "m2d_fast_base_fr0_8p129_1m.json",
+    "bonus": "m2d_fast_bonus_frb0_8p243_1m.json"
+  },
+  "calibrationHistory": [
+    {
+      "label": "initial",
+      "source": "m2d_fast_1m_summary.json",
+      "modes": {
+        "base": {
+          "rtp": 0.9089798000000112,
+          "rtp95ConfidenceInterval": [
+            0.8318923998286382,
+            0.9860672001713843
+          ],
+          "simulationCount": 1000000
+        },
+        "bonus": {
+          "rtp": 0.9749137780000043,
+          "rtp95ConfidenceInterval": [
+            0.9560920960300704,
+            0.9937354599699383
+          ],
+          "simulationCount": 1000000
+        }
+      }
+    },
+    {
+      "label": "base_7p971",
+      "source": "m2d_fast_base_fr0_7p971_1m.json",
+      "modes": {
+        "base": {
+          "rtp": 0.9200036000000095,
+          "rtp95ConfidenceInterval": [
+            0.8406289107551701,
+            0.9993782892448488
+          ],
+          "simulationCount": 1000000
+        }
+      }
+    },
+    {
+      "label": "base_8p100",
+      "source": "m2d_fast_base_fr0_8p1_1m.json",
+      "modes": {
+        "base": {
+          "rtp": 0.9383040000000027,
+          "rtp95ConfidenceInterval": [
+            0.8543540392617428,
+            1.0222539607382626
+          ],
+          "simulationCount": 1000000
+        }
+      }
+    },
+    {
+      "label": "base_8p257",
+      "source": "m2d_fast_base_fr0_8p257_1m.json",
+      "modes": {
+        "base": {
+          "rtp": 1.0834953999999841,
+          "rtp95ConfidenceInterval": [
+            0.9615845472797604,
+            1.2054062527202078
+          ],
+          "simulationCount": 1000000
+        }
+      }
+    },
+    {
+      "label": "base_8p129_selected",
+      "source": "m2d_fast_base_fr0_8p129_1m.json",
+      "modes": {
+        "base": {
+          "rtp": 0.9471212000000025,
+          "rtp95ConfidenceInterval": [
+            0.8617264777388313,
+            1.0325159222611737
+          ],
+          "simulationCount": 1000000
+        }
+      }
+    },
+    {
+      "label": "base_8p171",
+      "source": "m2d_fast_base_fr0_8p171_1m.json",
+      "modes": {
+        "base": {
+          "rtp": 1.019479399999994,
+          "rtp95ConfidenceInterval": [
+            0.9119835068562664,
+            1.1269752931437218
+          ],
+          "simulationCount": 1000000
+        }
+      }
+    },
+    {
+      "label": "bonus_8p243_selected",
+      "source": "m2d_fast_bonus_frb0_8p243_1m.json",
+      "modes": {
+        "bonus": {
+          "rtp": 0.9546342860000039,
+          "rtp95ConfidenceInterval": [
+            0.9360744925500839,
+            0.9731940794499239
+          ],
+          "simulationCount": 1000000
+        }
+      }
+    }
+  ]
+}
