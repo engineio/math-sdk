@@ -1,0 +1,36 @@
+name: Run Aura Farm Simulation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: pip install numpy zstandard xlsxwriter matplotlib toml
+
+      - name: Run Aura Farm simulation
+        working-directory: games/aura_farm
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: python3 run.py
+
+      - name: Upload math artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aura-farm-math
+          path: |
+            games/aura_farm/library/publish_files/
+            games/aura_farm/library/configs/
+          retention-days: 30

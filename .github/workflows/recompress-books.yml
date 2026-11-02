@@ -1,0 +1,77 @@
+name: Recompress Books (Single Frame)
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Run ID of the sim workflow to download artifacts from'
+        required: true
+
+jobs:
+  recompress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install zstandard
+        run: pip install zstandard
+
+      - name: Download original artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run download ${{ github.event.inputs.run_id }} -n sugar-stack-math -D original -R ${{ github.repository }}
+
+      - name: Recompress books as single-frame zstd
+        run: |
+          python3 - <<'PYEOF'
+          import zstandard as zstd
+          import os, glob
+
+          os.makedirs("output/publish_files", exist_ok=True)
+          os.makedirs("output/configs", exist_ok=True)
+
+          for src in glob.glob("original/publish_files/*.jsonl.zst"):
+              name = os.path.basename(src)
+              dst = f"output/publish_files/{name}"
+              print(f"Recompressing {name}...")
+              raw_path = dst + ".raw"
+              with open(raw_path, "wb") as raw_out:
+                  dctx = zstd.ZstdDecompressor()
+                  with open(src, "rb") as f_in:
+                      reader = dctx.stream_reader(f_in)
+                      while True:
+                          chunk = reader.read(65536)
+                          if not chunk:
+                              break
+                          raw_out.write(chunk)
+              cctx = zstd.ZstdCompressor(level=3)
+              with open(raw_path, "rb") as f_in, open(dst, "wb") as f_out:
+                  cctx.copy_stream(f_in, f_out)
+              os.remove(raw_path)
+              print(f"  Done: {os.path.getsize(dst)//1024//1024} MB")
+
+          # Copy non-zst files as-is
+          for src in glob.glob("original/publish_files/*"):
+              if not src.endswith(".jsonl.zst"):
+                  name = os.path.basename(src)
+                  import shutil
+                  shutil.copy2(src, f"output/publish_files/{name}")
+
+          for src in glob.glob("original/configs/*"):
+              import shutil
+              shutil.copy2(src, f"output/configs/{os.path.basename(src)}")
+
+          print("All done!")
+          PYEOF
+
+      - name: Upload recompressed artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sugar-stack-math-singleframe
+          path: |
+            output/publish_files/
+            output/configs/
+          retention-days: 30
