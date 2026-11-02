@@ -122,15 +122,11 @@ def conditional_value_at_risk(cutoff: float, dist: dict, total_weight) -> float:
     return tail_value / tail_prob
 
 
-def get_prob_scale(bet_cost: float) -> float:
-    """Leniency factor applied to tail-probability checks for high bet-cost modes."""
-    if bet_cost >= 1000:
-        return 0.2
-    if bet_cost >= 500:
-        return 0.5
-    if bet_cost >= 200:
-        return 0.8
-    return 1.0
+def prob_win_at_least(dist: dict, win: float, total_weight=None) -> float:
+    """Probability of a payout of at least `win` times the base bet."""
+    if total_weight is None:
+        total_weight = sum(dist.values())
+    return sum(weight for payout, weight in dist.items() if payout >= win) / total_weight
 
 
 def get_etl_cvar_p5k_10k_vales(dist: dict, bet_cost: float, total_weight=None) -> list[float]:
@@ -148,16 +144,15 @@ def get_etl_cvar_p5k_10k_vales(dist: dict, bet_cost: float, total_weight=None) -
         if win >= 40 * bet_cost:
             etl40 += win * (weight / total_weight)
     cvar = conditional_value_at_risk(0.999, dist, total_weight)
-    prob_scale = get_prob_scale(bet_cost)
 
-    return p5k * prob_scale, p10k * prob_scale, etl10k, etl40, cvar / bet_cost
+    return p5k, p10k, etl10k, etl40, cvar / bet_cost
 
 
 def get_maxwin_hitrate(dist: dict, total_weight=None) -> float:
     """Return frequency of max-win."""
     if total_weight is not None:
         total_weight = sum(list(dist.values()))
-    max_win_prob = dist[max(list(dist.keys()))] / total_weight
+    max_win_prob = dist[max(win for win, weight in dist.items() if weight > 0)] / total_weight
     return 1.0 / max_win_prob
 
 
@@ -202,10 +197,8 @@ def calculate_rtp(dist: dict, bet_cost: float, total_weight: float = None) -> fl
 
 
 def min_dist_difference(dist: dict):
-    """Minimum payout amount difference"""
-    wins = list(dist.keys())
-    diff = None
-    for i in range(len(wins) - 2):
-        if diff is None or (diff > abs(wins[i + 1]) - wins[i]):
-            diff = abs(wins[i + 1]) - wins[i]
-    return int(round(diff * 100))
+    """Smallest gap between consecutive unique payouts, in cents. None if there is only one payout."""
+    wins = sorted(dist.keys())
+    if len(wins) < 2:
+        return None
+    return int(round(min(b - a for a, b in zip(wins, wins[1:])) * 100))
